@@ -1,17 +1,19 @@
 import os
-# import sys
+import sqlalchemy_utils
+import models
+
 from logging.config import fileConfig
+
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import sqlalchemy
-import sqlalchemy_utils
+
 from alembic import context
-import models  # /usr/src/app/models with PYTHONPATH=/usr/src/app
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
+# connect to database
 DB_USER = os.environ.get('MYSQL_USER')
 DB_PASSWORD = os.environ.get('MYSQL_PASSWORD')
 DB_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
@@ -24,7 +26,6 @@ DATABASE = 'mysql://%s:%s@%s/%s?charset=utf8' % (
     DB_HOST,
     DB_NAME,
 )
-
 config.set_main_option('sqlalchemy.url', DATABASE)
 
 # Interpret the config file for Python logging.
@@ -33,8 +34,10 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
 target_metadata = models.Base.metadata
+# target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -42,21 +45,15 @@ target_metadata = models.Base.metadata
 # ... etc.
 
 
-# https://github.com/kvesteri/sqlalchemy-utils/issues/129
 def render_item(type_, obj, autogen_context):
     """Apply custom rendering for selected items."""
 
-    if type_ == 'type':
-        if isinstance(obj, sqlalchemy_utils.types.uuid.UUIDType):
-            # add import for this type
-            autogen_context.imports.add("import sqlalchemy_utils")
-            autogen_context.imports.add("import uuid")
-            return "sqlalchemy_utils.types.uuid.UUIDType(binary=False), default=uuid.uuid4"
-
-        elif isinstance(obj, sqlalchemy.dialects.mysql.SET):
-            autogen_context.imports.add(
-                "from sqlalchemy.dialects import mysql")
-            return f"mysql.{obj}"
+    if type_ == 'type' and isinstance(
+            obj, sqlalchemy_utils.types.uuid.UUIDType):
+        # add import for this type
+        autogen_context.imports.add("import sqlalchemy_utils")
+        autogen_context.imports.add("import uuid")
+        return "sqlalchemy_utils.types.uuid.UUIDType(binary=False), default=uuid.uuid4"
 
     # default rendering for other objects
     return False
@@ -101,8 +98,7 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
+            connection=connection, target_metadata=target_metadata,
             render_item=render_item
         )
 

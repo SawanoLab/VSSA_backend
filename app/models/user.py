@@ -17,8 +17,3 @@ class User(Base, TimestampMixin):
         'Season',
         back_populates='user'
     )
-
-    matches = relationship(
-        'Matche',
-        back_populates='user'
-    )

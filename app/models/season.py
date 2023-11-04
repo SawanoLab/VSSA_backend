@@ -1,6 +1,5 @@
 from database import Base
-from sqlalchemy import Column, String, DATETIME
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, String, DATETIME, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
@@ -25,14 +24,4 @@ class Season(Base, TimestampMixin):
     user = relationship(
         'User',
         back_populates='seasons'
-    )
-
-    teams_players = relationship(
-        'TeamsPlayer',
-        back_populates='season'
-    )
-
-    season_players = relationship(
-        'SeasonPlayer',
-        back_populates='season'
     )
