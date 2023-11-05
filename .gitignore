@@ -1,4 +1,3 @@
-app/routers/season.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -182,3 +181,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python
 app/__pycache__/
 app/models/__pycache__/
+*__pycache__/

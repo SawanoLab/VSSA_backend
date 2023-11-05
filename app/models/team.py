@@ -6,27 +6,30 @@ from uuid import uuid4
 from .mixins import TimestampMixin
 
 
-class Season(Base, TimestampMixin):
-    __tablename__ = 'seasons'
+class Teams(Base, TimestampMixin):
+    __tablename__ = 'teams'
     uuid = Column(UUIDType(binary=False),
                   primary_key=True,
                   default=uuid4)
-    start_day = Column(DATETIME, nullable=False)
-    end_day = Column(DATETIME, nullable=False)
-    season_name = Column(String(128), nullable=False)
-    game_format = Column(String(128), nullable=False)
+    name = Column(String(128), nullable=False)
     code = Column(String(128), nullable=False)
-
+    director = Column(String(128), nullable=True)
+    coach = Column(String(128), nullable=True)
+    trainer = Column(String(128), nullable=True)
+    doctor = Column(String(128), nullable=True)
+    season_id = Column(UUIDType(binary=False),
+                       ForeignKey('seasons.uuid'),
+                       nullable=False)
     user_id = Column(UUIDType(binary=False),
                      ForeignKey('users.uuid'),
                      nullable=False)
 
     user = relationship(
         'User',
-        back_populates='seasons'
+        back_populates='teams'
     )
 
-    teams = relationship(
-        'Teams',
-        back_populates='season'
+    season = relationship(
+        'Season',
+        back_populates='teams'
     )

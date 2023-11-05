@@ -17,3 +17,8 @@ class User(Base, TimestampMixin):
         'Season',
         back_populates='user'
     )
+
+    teams = relationship(
+        'Teams',
+        back_populates='user'
+    )

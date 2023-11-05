@@ -1,11 +1,11 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
+from starlette.status import HTTP_404_NOT_FOUND
+from typing import List
+from uuid import uuid4
+from uuid import UUID
 from models.season import Season
 from schemas.season import SeasonBase, SeasonGet
-from uuid import uuid4
-from typing import List
-from starlette.status import HTTP_404_NOT_FOUND
-from uuid import UUID
 
 
 def get_seasons(db: Season, user_id: UUID) -> List[SeasonGet]:
