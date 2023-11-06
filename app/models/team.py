@@ -33,3 +33,8 @@ class Teams(Base, TimestampMixin):
         'Season',
         back_populates='teams'
     )
+
+    players = relationship(
+        'Player',
+        back_populates='team'
+    )

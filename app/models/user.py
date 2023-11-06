@@ -22,3 +22,8 @@ class User(Base, TimestampMixin):
         'Teams',
         back_populates='user'
     )
+
+    players = relationship(
+        'Player',
+        back_populates='user'
+    )
