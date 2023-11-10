@@ -1,0 +1,46 @@
+version: "3.5"
+
+services:
+  api:
+    image: "volleyapp_dev:0.1.0"
+    container_name: "volleyapp_dev"
+    # depends_on:
+    #   - db
+    #   - nginx
+    build:
+      context: ./docker/api
+      dockerfile: Dockerfile
+    # expose:
+    #   - "8000"
+    ports:
+      - "10444:8000"
+    volumes:
+      - ./app:/usr/src/app/app:cached
+      - ./db:/usr/src/app/db:cached
+      - ./scripts:/usr/src/app/scripts:cached
+      - ./tests:/usr/src/app/tests:cached
+      - ./htdocs:/usr/src/app/htdocs:cached
+      - ./log/app:/var/log/app:cached
+    working_dir: /usr/src/app/scripts
+    command: bash -c "./init_db.sh && ./run_server.sh"
+    # networks:
+    #   rem_network:
+    #     ipv4_address: 172.18.0.3
+    networks:
+      - rem_network
+    environment:
+      APP_ENV: "development"
+      TZ: "Asia/Tokyo"
+    env_file:
+      - .env.development
+networks:
+  default:
+    external:
+      name: bridge
+  rem_network:
+    name: rem_network
+    driver: bridge
+    # ipam:
+    #   config:
+    #     - subnet: 172.18.0.0/24
+    external: true
