@@ -14,7 +14,7 @@ services:
     volumes:
       - ./htdocs/:/usr/share/nginx/html
     networks:
-      - rem_network
+      - volley_network
     environment:
       APP_ENV: "development"
       TZ: "Asia/Tokyo"
@@ -43,10 +43,10 @@ services:
     working_dir: /usr/src/app/scripts
     command: bash -c "./init_db.sh && ./run_server.sh"
     # networks:
-    #   rem_network:
+    #   volley_network:
     #     ipv4_address: 172.18.0.3
     networks:
-      - rem_network
+      - volley_network
     environment:
       APP_ENV: "development"
       TZ: "Asia/Tokyo"
@@ -69,10 +69,10 @@ services:
       - ./docker/db/conf.d:/etc/mysql/conf.d:cached
       - ./log/db:/var/log/mysql:cached
     # networks:
-    #   rem_network:
+    #   volley_network:
     #     ipv4_address: 172.18.0.4
     networks:
-      - rem_network
+      - volley_network
     environment:
       APP_ENV: "development"
       TZ: "Asia/Tokyo"
@@ -83,8 +83,8 @@ networks:
   default:
     external:
       name: bridge
-  rem_network:
-    name: rem_network
+  volley_network:
+    name: volley_network
     driver: bridge
     # ipam:
     #   config:
