@@ -4,16 +4,12 @@ services:
   api:
     image: "volleyapp_dev:0.1.0"
     container_name: "volleyapp_dev"
-    # depends_on:
-    #   - db
-    #   - nginx
     build:
       context: ./docker/api
       dockerfile: Dockerfile
-    # expose:
-    #   - "8000"
+
     ports:
-      - "10444:8000"
+      - "80:80"
     volumes:
       - ./app:/usr/src/app/app:cached
       - ./db:/usr/src/app/db:cached
@@ -23,16 +19,13 @@ services:
       - ./log/app:/var/log/app:cached
     working_dir: /usr/src/app/scripts
     command: bash -c "./init_db.sh && ./run_server.sh"
-    # networks:
-    #   volleyball_network:
-    #     ipv4_address: 172.18.0.3
     networks:
       - volleyball_network
     environment:
       APP_ENV: "development"
       TZ: "Asia/Tokyo"
     env_file:
-      - .env.development
+      - .env.staging
 networks:
   default:
     external:
