@@ -1,0 +1,26 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH keys
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Copy code to EC2
+      run: scp -r . ec2-user@ip-10-0-10-136:/home/ec2-user/VSSA_backend
+
+    - name: SSH into EC2 and run Docker Compose
+      run: |
+        ssh ec2-user@ip-10-0-10-136 'cd /home/ec2-user/VSSA_backend && docker-compose -f docker-compose.stg.yml up -d'
