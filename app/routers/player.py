@@ -11,7 +11,7 @@ player_router = APIRouter()
 
 @player_router.get('/', response_model=List[PlayerGet])
 async def get_players(user_id: str, db: Session = Depends(get_db)):
-    items = crud_team.get_players(db, user_id)
+    items = await crud_team.get_players(db, user_id)
     return items
 
 
@@ -34,6 +34,5 @@ async def update_player(user_id: str,
                         player_id: str,
                         player: PlayerUpdate,
                         db: Session = Depends(get_db)):
-    print("player_id: ", player_id)
     item = crud_team.update_player(db, user_id, player_id, player)
     return item
