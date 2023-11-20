@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 from routers.season import season_router
@@ -27,7 +28,7 @@ router.include_router(
 
 app = FastAPI()
 
-origins = ['http://localhost:3001']
+origins = [os.environ.get('ALLOW_ORIGIN')]
 
 app.add_middleware(
     CORSMiddleware,
