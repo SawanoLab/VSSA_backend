@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from routers.season import season_router
 from routers.team import team_router
 from routers.player import player_router
+from routers.match import match_router
 
 router = APIRouter()
 
@@ -24,6 +25,12 @@ router.include_router(
     player_router,
     prefix='/players',
     tags=['players']
+)
+
+router.include_router(
+    match_router,
+    prefix='/matches',
+    tags=['matches']
 )
 
 app = FastAPI()
