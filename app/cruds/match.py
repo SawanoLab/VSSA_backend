@@ -5,62 +5,71 @@ from uuid import uuid4
 
 from models.match import Match
 from models.playerMatchInfo import PlayerMatchInfo
-from schemas.match import MatchRequest, TeamRequest, TeamPlayers, MatchPostRequest, PlayerMatchInfo as PlayerMatchInfoRequest
+from schemas.match import MatchRequest, TeamRequest, TeamPlayers, MatchPostRequest
 
 
-def get_match(db: Session, match_id: str) -> MatchRequest:
+def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
     try:
-        match = db.query(Match).filter(Match.uuid == match_id).first()
-        home_team_of_match = match.home_team
-        away_team_of_match = match.away_team
-        home_team_of_match_uuid = home_team_of_match.uuid
-        away_team_of_match_uuid = away_team_of_match.uuid
-        match_player_infos = match.player_match_info
-
-        home_team_players = []
-        away_team_players = []
-        for info in match_player_infos:
-            player = info.player
-            team_players = TeamPlayers(
-                PlayerInfo={
-                    "uuid": player.uuid,
-                    "name": player.name,
-                    "player_number": player.player_number,
-                    "code": player.code,
-                    "postion": player.postion,
-                    "weight": player.weight,
-                    "height": player.height,
-                },
-                onCourt=info.on_court,
-                zone_code=info.zone_code,
-                libero=info.libero
-            )
-            if player.team_id == home_team_of_match_uuid:
-                home_team_players.append(team_players)
-            elif player.team_id == away_team_of_match_uuid:
-                away_team_players.append(team_players)
-
-        home_team_request = TeamRequest(
-            team_name=home_team_of_match.name,
-            players={str(player.PlayerInfo.uuid):
-                     player for player in home_team_players},
-            setter_postion="Z2"
-        )
-
-        away_team_request = TeamRequest(
-            team_name=away_team_of_match.name,
-            players={str(player.PlayerInfo.uuid):
-                     player for player in away_team_players},
-            setter_postion="Z1"
-        )
-
-        item = MatchRequest(
-            home_team=home_team_request,
-            away_team=away_team_request
-        )
+        items = db.query(Match).filter(Match.user_id == user_id).offset(skip).limit(limit).all()
+        match_requests = []
+        for match in items:
+            match_requests.append(get_match(db, match.uuid))
+        return match_requests
     except Exception as e:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
 
+
+def get_match(db: Session, match_id: str) -> MatchRequest:
+    match = db.query(Match).filter(Match.uuid == match_id).first()
+    home_team_of_match = match.home_team
+    away_team_of_match = match.away_team
+    home_team_of_match_uuid = home_team_of_match.uuid
+    away_team_of_match_uuid = away_team_of_match.uuid
+    match_player_infos = match.player_match_info
+
+    home_team_players = []
+    away_team_players = []
+    for info in match_player_infos:
+        player = info.player
+        print("player: ", player.uuid)
+        team_players = TeamPlayers(
+            PlayerInfo={
+                "uuid": str(player.uuid),
+                "name": player.name,
+                "player_number": player.player_number,
+                "code": player.code,
+                "postion": player.postion,
+                "weight": player.weight,
+                "height": player.height,
+            },
+            onCourt=info.on_court,
+            zone_code=info.zone_code,
+            libero=info.libero
+        )
+        print("team_players: ", team_players)
+        if player.team_id == home_team_of_match_uuid:
+            home_team_players.append(team_players)
+        elif player.team_id == away_team_of_match_uuid:
+            away_team_players.append(team_players)
+
+    home_team_request = TeamRequest(
+        team_name=home_team_of_match.name,
+        players={str(player.PlayerInfo.uuid):
+                    player for player in home_team_players},
+        setter_postion="Z2"
+    )
+
+    away_team_request = TeamRequest(
+        team_name=away_team_of_match.name,
+        players={str(player.PlayerInfo.uuid):
+                    player for player in away_team_players},
+        setter_postion="Z1"
+    )
+
+    item = MatchRequest(
+        home_team=home_team_request,
+        away_team=away_team_request
+    )
     return item
 
 

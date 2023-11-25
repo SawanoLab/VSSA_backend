@@ -9,15 +9,15 @@ class PlayerInfo(BaseModel):
     player_number: int
     code: str
     postion: str
-    weight: int
-    height: int
+    weight: Optional[int]
+    height: Optional[int]
 
 
 class TeamPlayers(BaseModel):
     PlayerInfo: PlayerInfo
     onCourt: bool
     zone_code: Optional[str]
-    libero: bool
+    libero: Optional[bool]
 
 
 class TeamRequest(BaseModel):
@@ -35,7 +35,7 @@ class PlayerMatchInfo(BaseModel):
     player_id: str
     on_court: bool
     zone_code: Optional[str]
-    libero: bool
+    libero: Optional[bool]
 
 
 class Match(BaseModel):
