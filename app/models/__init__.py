@@ -6,4 +6,5 @@ from .team import Teams  # noqa: F401
 from .player import Player  # noqa: F401
 from .mixins import TimestampMixin  # noqa: F401
 from .match import Match  # noqa: F401
+from .matchScore import MatchScore  # noqa: F401
 from .playerMatchInfo import PlayerMatchInfo  # noqa: F401

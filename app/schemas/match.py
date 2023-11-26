@@ -27,6 +27,7 @@ class TeamRequest(BaseModel):
 
 
 class MatchRequest(BaseModel):
+    uuid: str
     home_team: TeamRequest
     away_team: TeamRequest
     season_name: str
