@@ -4,13 +4,18 @@ from starlette.status import HTTP_404_NOT_FOUND
 from uuid import uuid4
 
 from models.match import Match
+from models.season import Season
 from models.playerMatchInfo import PlayerMatchInfo
 from schemas.match import MatchRequest, TeamRequest, TeamPlayers, MatchPostRequest
 
 
 def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
     try:
-        items = db.query(Match).filter(Match.user_id == user_id).offset(skip).limit(limit).all()
+        # TODO: あとで修正
+        # user_idを-を削除してから検索する
+        user_id = user_id.replace("-", "")
+        items = db.query(Match).filter(
+            Match.user_id == user_id).offset(skip).limit(limit).all()
         match_requests = []
         for match in items:
             match_requests.append(get_match(db, match.uuid))
@@ -31,7 +36,6 @@ def get_match(db: Session, match_id: str) -> MatchRequest:
     away_team_players = []
     for info in match_player_infos:
         player = info.player
-        print("player: ", player.uuid)
         team_players = TeamPlayers(
             PlayerInfo={
                 "uuid": str(player.uuid),
@@ -46,7 +50,6 @@ def get_match(db: Session, match_id: str) -> MatchRequest:
             zone_code=info.zone_code,
             libero=info.libero
         )
-        print("team_players: ", team_players)
         if player.team_id == home_team_of_match_uuid:
             home_team_players.append(team_players)
         elif player.team_id == away_team_of_match_uuid:
@@ -55,20 +58,21 @@ def get_match(db: Session, match_id: str) -> MatchRequest:
     home_team_request = TeamRequest(
         team_name=home_team_of_match.name,
         players={str(player.PlayerInfo.uuid):
-                    player for player in home_team_players},
+                 player for player in home_team_players},
         setter_postion="Z2"
     )
 
     away_team_request = TeamRequest(
         team_name=away_team_of_match.name,
         players={str(player.PlayerInfo.uuid):
-                    player for player in away_team_players},
+                 player for player in away_team_players},
         setter_postion="Z1"
     )
 
     item = MatchRequest(
         home_team=home_team_request,
-        away_team=away_team_request
+        away_team=away_team_request,
+        season_name=match.season.season_name
     )
     return item
 
@@ -80,7 +84,8 @@ def create_match(db: Session, match: MatchPostRequest) -> MatchPostRequest:
             uuid=match_uuid,
             home_team_id=match.Match.home_team_id.replace("-", ""),
             away_team_id=match.Match.away_team_id.replace("-", ""),
-            user_id=match.Match.user_id.replace("-", "")
+            user_id=match.Match.user_id.replace("-", ""),
+            season_id=match.Match.season_id.replace("-", ""),
         )
         db.add(match_item)
         for key, player_info in match.PlayerMatchInfo.items():
