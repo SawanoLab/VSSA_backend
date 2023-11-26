@@ -1,5 +1,4 @@
 from typing import List
-from uuid import UUID
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -15,6 +14,12 @@ match_router = APIRouter()
 async def get_matches(user_id: str, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud_match.get_matches(db=db, user_id=user_id, skip=skip, limit=limit)
     return items
+
+
+@match_router.get('/{match_id}', response_model=MatchRequest)
+async def get_match(user_id: str, match_id: str, db: Session = Depends(get_db)):
+    item = crud_match.get_match(db=db, user_id=user_id, match_id=match_id)
+    return item
 
 
 @match_router.post('/', response_model=MatchPostRequest)

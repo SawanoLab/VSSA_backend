@@ -5,7 +5,6 @@ from uuid import uuid4
 
 from models.match import Match
 from models.matchScore import MatchScore
-from models.season import Season
 from models.playerMatchInfo import PlayerMatchInfo
 from schemas.match import MatchRequest, TeamRequest, TeamPlayers, MatchPostRequest
 
@@ -76,7 +75,9 @@ def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
             uuid=str(match.uuid),
             home_team=home_team_request,
             away_team=away_team_request,
-            season_name=match.season.season_name
+            season_name=match.season.season_name,
+            home_team_score=match.matchscore.home_team_score,
+            away_team_score=match.matchscore.away_team_score
         )
     except Exception as e:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
