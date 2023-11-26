@@ -23,3 +23,11 @@ class PlayerCreate(PlayerBase):
 
 class PlayerGet(PlayerBase):
     uuid: UUID
+
+
+class PlayerDelete(PlayerBase):
+    uuid: UUID
+
+
+class PlayerUpdate(PlayerBase):
+    uuid: UUID
