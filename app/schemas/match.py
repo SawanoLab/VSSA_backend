@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class PlayerInfo(BaseModel):
-    uuid: str
+    uuid: UUID
     name: str
     player_number: int
     code: str
@@ -27,7 +27,7 @@ class TeamRequest(BaseModel):
 
 
 class MatchRequest(BaseModel):
-    uuid: str
+    uuid: UUID
     home_team: TeamRequest
     away_team: TeamRequest
     season_name: str
@@ -36,17 +36,17 @@ class MatchRequest(BaseModel):
 
 
 class PlayerMatchInfo(BaseModel):
-    player_id: str
+    player_id: UUID
     on_court: bool
     zone_code: Optional[str]
     libero: Optional[bool]
 
 
 class Match(BaseModel):
-    home_team_id: str
-    away_team_id: str
-    user_id: str
-    season_id: str
+    home_team_id: UUID
+    away_team_id: UUID
+    user_id: UUID
+    season_id: UUID
 
 
 class MatchPostRequest(BaseModel):
