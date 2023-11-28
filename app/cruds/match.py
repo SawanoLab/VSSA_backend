@@ -12,15 +12,7 @@ from schemas.match import MatchRequest, TeamRequest, TeamPlayers, \
 
 def create_team_player(info: PlayerMatchInfo):
     return TeamPlayers(
-        PlayerInfo={
-            "uuid": str(info.player.uuid),
-            "name": info.player.name,
-            "player_number": info.player.player_number,
-            "code": info.player.code,
-            "postion": info.player.postion,
-            "weight": info.player.weight,
-            "height": info.player.height,
-        },
+        PlayerInfo={**info.player.__dict__},
         onCourt=info.on_court,
         zone_code=info.zone_code,
         libero=info.libero
@@ -88,24 +80,26 @@ def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
 
 
 def create_match(db: Session, matchPostRequest: MatchPostRequest) -> MatchPostRequest:
-    # try:
-    match_score_item = init_match_score()
-    db.add(match_score_item)
-    match_item = Match(
-        **matchPostRequest.Match.__dict__,
-        uuid=uuid4(),
-        matchscore_id=match_score_item.uuid
-    )
-    db.add(match_item)
-    db.commit()
-    db.refresh(match_item)
-    for _, player_info in matchPostRequest.PlayerMatchInfo.items():
-        item = PlayerMatchInfo(uuid=uuid4(), match_id=match_item.uuid, **player_info.__dict__)
-        db.add(item)
-    db.commit()
-    db.refresh(match_item)
-    db.refresh(match_score_item)
-    return matchPostRequest
-    # except Exception as e:
-    #     db.rollback()
-    #     raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
+    try:
+        match_score_item = init_match_score()
+        db.add(match_score_item)
+        match_item = Match(
+            **matchPostRequest.Match.__dict__,
+            uuid=uuid4(),
+            matchscore_id=match_score_item.uuid
+        )
+        db.add(match_item)
+        db.commit()
+        db.refresh(match_item)
+        for _, player_info in matchPostRequest.PlayerMatchInfo.items():
+            item = PlayerMatchInfo(uuid=uuid4(),
+                                   match_id=match_item.uuid,
+                                   **player_info.__dict__)
+            db.add(item)
+        db.commit()
+        db.refresh(match_item)
+        db.refresh(match_score_item)
+        return matchPostRequest
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))

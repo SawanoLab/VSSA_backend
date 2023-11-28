@@ -94,14 +94,14 @@ def upgrade():
                         'current_timestamp on update current_timestamp'), nullable=False),
                     sa.Column('uuid', sqlalchemy_utils.types.uuid.UUIDType(
                         binary=False), default=uuid.uuid4, nullable=False),
-                    sa.Column('home_team_id', sa.String(
-                        length=225), nullable=False),
-                    sa.Column('away_team_id', sa.String(
-                        length=225), nullable=False),
-                    sa.Column('season_id', sa.String(
-                        length=225), nullable=False),
-                    sa.Column('user_id', sa.String(
-                        length=225), nullable=False),
+                    sa.Column('home_team_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
+                    sa.Column('away_team_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
+                    sa.Column('season_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
+                    sa.Column('user_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
                     sa.Column('matchscore_id', sa.String(
                         length=225), nullable=False),
                     sa.ForeignKeyConstraint(['away_team_id'], ['teams.uuid'], name=op.f(
@@ -151,10 +151,10 @@ def upgrade():
                         'current_timestamp on update current_timestamp'), nullable=False),
                     sa.Column('uuid', sqlalchemy_utils.types.uuid.UUIDType(
                         binary=False), default=uuid.uuid4, nullable=False),
-                    sa.Column('player_id', sa.String(
-                        length=225), nullable=False),
-                    sa.Column('match_id', sa.String(
-                        length=255), nullable=False),
+                    sa.Column('player_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
+                    sa.Column('match_id', sqlalchemy_utils.types.uuid.UUIDType(
+                        binary=False), default=uuid.uuid4, nullable=False),
                     sa.Column('on_court', sa.Boolean(), nullable=False),
                     sa.Column('zone_code', sa.String(
                         length=255), nullable=False),
