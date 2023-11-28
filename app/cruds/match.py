@@ -38,13 +38,17 @@ def init_match_score() -> MatchScore:
     )
 
 
+def create_team_players(team, player_match_info):
+    return [create_team_player(info)
+            for info in player_match_info
+            if info.player.team_id == team.uuid]
+
+
 def assemble_match_request(match: Match):
-    home_team_players = [create_team_player(
-        info) for info in match.player_match_info
-        if info.player.team_id == match.home_team.uuid]
-    away_team_players = [create_team_player(
-        info) for info in match.player_match_info
-        if info.player.team_id != match.home_team.uuid]
+    home_team_players = create_team_players(
+        match.home_team, match.player_match_info)
+    away_team_players = create_team_players(
+        match.away_team, match.player_match_info)
     home_team_request = create_team_request(
         match.home_team.name, home_team_players, "Z1")
     away_team_request = create_team_request(
@@ -62,7 +66,6 @@ def assemble_match_request(match: Match):
 
 def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
     try:
-        user_id = user_id.replace("-", "")
         items = db.query(Match).filter(
             Match.user_id == user_id).offset(skip).limit(limit).all()
         return [assemble_match_request(match) for match in items]
