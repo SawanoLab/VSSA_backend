@@ -87,12 +87,21 @@ def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
 def create_match(db: Session, match: MatchPostRequest) -> MatchPostRequest:
     try:
         match_uuid = uuid4()
+        match_score_uuid = uuid4()
+        match_score_item = MatchScore(
+            uuid=match_score_uuid,
+            home_team_score=0,
+            away_team_score=0
+        )
+        db.add(match_score_item)
+
         match_item = Match(
             uuid=match_uuid,
             home_team_id=match.Match.home_team_id.replace("-", ""),
             away_team_id=match.Match.away_team_id.replace("-", ""),
             user_id=match.Match.user_id.replace("-", ""),
             season_id=match.Match.season_id.replace("-", ""),
+            matchscore_id=str(match_score_uuid).replace("-", "")
         )
         db.add(match_item)
         for key, player_info in match.PlayerMatchInfo.items():
