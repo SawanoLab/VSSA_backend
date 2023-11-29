@@ -4,8 +4,7 @@ INSERT INTO seasons (created_at, updated_at, start_day, end_day, season_name, ga
 VALUES (
     CURRENT_TIMESTAMP, -- created_at
     CURRENT_TIMESTAMP, -- updated_at
-    '2022-07-01 00:00:00', 
-    -- start_day
+    '2022-07-01 00:00:00', -- start_day
     '2022-07-31 23:59:59', -- end_day
     'Summer 2022', -- season_name
     'Game Format Example', -- game_format
