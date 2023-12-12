@@ -40,13 +40,13 @@ def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Player not deleted')
-    return PlayerBase.from_orm(db_player)
+    return []
 
 
 def update_player(db: Session,
                   user_id: str,
                   player_id: str,
-                  player: PlayerUpdate
+                  player: PlayerBase
                   ) -> PlayerBase:
     try:
         db_player = db.query(Player).filter(Player.user_id == user_id,

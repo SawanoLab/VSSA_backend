@@ -32,7 +32,7 @@ async def delete_player(user_id: str,
 @player_router.put('/', response_model=PlayerBase)
 async def update_player(user_id: str,
                         player_id: str,
-                        player: PlayerUpdate,
+                        player: PlayerBase,
                         db: Session = Depends(get_db)):
     item = crud_team.update_player(db, user_id, player_id, player)
     return item
