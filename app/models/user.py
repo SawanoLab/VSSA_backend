@@ -33,3 +33,5 @@ class User(Base, TimestampMixin):
         back_populates='user',
         primaryjoin='User.uuid == Match.user_id'
     )
+
+    attacks = relationship('Attack', back_populates='user')

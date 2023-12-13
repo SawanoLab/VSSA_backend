@@ -4,7 +4,7 @@ from starlette.status import HTTP_404_NOT_FOUND
 from typing import List
 from uuid import uuid4
 from models.player import Player
-from schemas.player import PlayerBase, PlayerGet, PlayerUpdate
+from schemas.player import PlayerBase, PlayerGet
 from utils.logger import get_logger
 
 

@@ -5,6 +5,7 @@ from routers.season import season_router
 from routers.team import team_router
 from routers.player import player_router
 from routers.match import match_router
+from routers.attack import attack_router
 
 router = APIRouter()
 
@@ -31,6 +32,12 @@ router.include_router(
     match_router,
     prefix='/matches',
     tags=['matches']
+)
+
+router.include_router(
+    attack_router,
+    prefix='/attacks',
+    tags=['attacks']
 )
 
 app = FastAPI()

@@ -6,7 +6,6 @@ from tests.constants.season import SEASON_DATA_JSON, SEASON_CREATE_DATA_JSON  # 
 def test_get_season(client):
     res = client.get(f'/seasons/?user_id={USER_ID}')
     data = res.json()
-    print("DATA: ", data)
     assert res.status_code == 200
     assert data == SEASON_DATA_JSON
 

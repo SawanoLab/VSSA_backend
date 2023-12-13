@@ -9,12 +9,12 @@ from schemas.season import SeasonBase, SeasonGet
 
 
 def get_seasons(db: Season, user_id: UUID) -> List[SeasonGet]:
-    try:
-        items = db.query(Season).filter(Season.user_id == user_id).all()
-        seasons = [SeasonGet.from_orm(item) for item in items]
-    except Exception:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                            detail='No seasons found')
+    # try:
+    items = db.query(Season).filter(Season.user_id == user_id).all()
+    seasons = [SeasonGet.from_orm(item) for item in items]
+    # except Exception:
+    #     raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+    #                         detail='No seasons found')
     return seasons
 
 

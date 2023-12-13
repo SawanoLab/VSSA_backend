@@ -31,8 +31,8 @@ class MatchRequest(BaseModel):
     home_team: TeamRequest
     away_team: TeamRequest
     season_name: str
-    home_team_score: int
-    away_team_score: int
+    # home_team_score: int
+    # away_team_score: int
 
 
 class PlayerMatchInfo(BaseModel):

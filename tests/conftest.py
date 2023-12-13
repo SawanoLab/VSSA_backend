@@ -71,4 +71,3 @@ def client():
     ''' Getting testclient of app '''
     with TestClient(app) as client:
         yield client
-

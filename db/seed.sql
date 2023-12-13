@@ -89,3 +89,9 @@ INSERT INTO playerMatchInfo (uuid, player_id, match_id, on_court, zone_code, lib
 ('4d429d6a11ea4625a1c01b7f7a3e9fc7', '48ef9a7adae2456f891c831b04901b8f', '80ceca3f7f16496e9d769f42996fedbb', true, 'Z5', true),
 ('4f059d74b1584d0b94645b7e4b5db6c1', '58ef9a7adae2456f891c831b04901b8f', '80ceca3f7f16496e9d769f42996fedbb', true, 'Z6', false),
 ('15b9b0f327804ea2b54a5c598b5e3aa7', '68ef9a7adae2456f891c831b04901b7f', '80ceca3f7f16496e9d769f42996fedbb', true, 'Z3', false);
+
+
+INSERT INTO attacks
+    (uuid, home_team_score, home_team_set_score, away_team_score, away_team_set_score, attack_start_zone, attack_end_zone, attack_ball_type, attack_skill, attack_evaluation, user_id, match_id, team_id, player_id)
+    VALUES()
+

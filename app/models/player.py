@@ -47,3 +47,8 @@ class Player(Base, TimestampMixin):
         'PlayerMatchInfo',
         back_populates='player'
     )
+
+    attacks = relationship(
+        'Attack',
+        back_populates='player'
+    )

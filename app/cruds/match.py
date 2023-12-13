@@ -33,8 +33,8 @@ def create_team_request(team_name: str,
 def init_match_score() -> MatchScore:
     return MatchScore(
         uuid=uuid4(),
-        home_team_score=0,
-        away_team_score=0
+        # home_team_score=0,
+        # away_team_score=0
     )
 
 
@@ -59,8 +59,6 @@ def assemble_match_request(match: Match):
         home_team=home_team_request,
         away_team=away_team_request,
         season_name=match.season.season_name,
-        home_team_score=match.matchscore.home_team_score,
-        away_team_score=match.matchscore.away_team_score
     )
 
 
