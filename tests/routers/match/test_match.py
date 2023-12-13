@@ -6,4 +6,5 @@ from tests.constants.team import TEAM_DATA_JSON, TEAM_CREATE_DATA_JSON
 def test_get_match(client):
     res = client.get(f'/matches/?user_id={USER_ID}')
     data = res.json()
+    print(data)
     assert res.status_code == 200

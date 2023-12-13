@@ -17,7 +17,7 @@ async def get_attacks(user_id: str,
     return items
 
 
-@attack_router.post('/', response_model=AttackBase)
+@attack_router.post('/', response_model=AttackGet)
 async def create_attack(attack: AttackBase,
                         db: Session = Depends(get_db)):
     item = await crud_attack.create_attack(db, attack)

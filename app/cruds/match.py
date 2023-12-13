@@ -10,7 +10,7 @@ from schemas.match import MatchRequest, TeamRequest, TeamPlayers, \
     MatchPostRequest
 
 
-def create_team_player(info: PlayerMatchInfo):
+def create_team_player(info: PlayerMatchInfo) -> TeamPlayers:
     return TeamPlayers(
         PlayerInfo={**info.player.__dict__},
         onCourt=info.on_court,
@@ -19,10 +19,13 @@ def create_team_player(info: PlayerMatchInfo):
     )
 
 
-def create_team_request(team_name: str,
-                        team_players: list,
-                        setter_postion: str):
+def create_team_request(
+        uuid: str,
+        team_name: str,
+        team_players: list,
+        setter_postion: str) -> TeamRequest:
     return TeamRequest(
+        uuid=uuid,
         team_name=team_name,
         players={str(player.PlayerInfo.uuid):
                  player for player in team_players},
@@ -44,15 +47,15 @@ def create_team_players(team, player_match_info):
             if info.player.team_id == team.uuid]
 
 
-def assemble_match_request(match: Match):
+def assemble_match_request(match: Match) -> MatchRequest:
     home_team_players = create_team_players(
         match.home_team, match.player_match_info)
     away_team_players = create_team_players(
         match.away_team, match.player_match_info)
     home_team_request = create_team_request(
-        match.home_team.name, home_team_players, "Z1")
+        match.home_team.uuid, match.home_team.name, home_team_players, "Z1")
     away_team_request = create_team_request(
-        match.away_team.name, away_team_players, "Z1")
+        match.away_team.uuid, match.away_team.name, away_team_players, "Z1")
 
     return MatchRequest(
         uuid=str(match.uuid),

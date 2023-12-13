@@ -21,6 +21,7 @@ class TeamPlayers(BaseModel):
 
 
 class TeamRequest(BaseModel):
+    uuid: UUID
     team_name: str
     players: Dict[str, TeamPlayers]
     setter_postion: str
