@@ -19,3 +19,15 @@ async def get_teams(user_id: str, db: Session = Depends(get_db)):
 async def create_team(team: TeamBase, db: Session = Depends(get_db)):
     db_team = await crud_team.create_team(db, team)
     return db_team
+
+
+@team_router.delete('/{team_id}', response_model=list)
+async def delete_team(user_id: str, team_id: str, db: Session = Depends(get_db)):
+    db_team = await crud_team.delete_team(db, user_id, team_id)
+    return db_team
+
+
+@team_router.put('/{team_id}', response_model=TeamGet)
+async def update_team(team: TeamBase, db: Session = Depends(get_db)):
+    db_team = await crud_team.update_team(db, team)
+    return db_team

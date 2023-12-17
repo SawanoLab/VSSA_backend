@@ -28,3 +28,15 @@ async def create_season(db: Session, season: SeasonBase) -> SeasonBase:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Season not created')
     return SeasonBase.from_orm(db_season)
+
+
+async def delete_seasons(db: Session, user_id: UUID, season_id: UUID) -> SeasonGet:
+    try:
+        db_season = db.query(Season).filter(Season.user_id == user_id,
+                                            Season.uuid == season_id).first()
+        db.delete(db_season)
+        db.commit()
+    except Exception:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail='Season not deleted')
+    return []

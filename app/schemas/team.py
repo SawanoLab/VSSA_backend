@@ -15,8 +15,10 @@ class TeamBase(BaseModel):
     class Config:
         orm_mode = True
 
+
 class TeamCreate(TeamBase):
     uuid: UUID
+
 
 class TeamGet(TeamBase):
     uuid: UUID
