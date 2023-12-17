@@ -8,7 +8,7 @@ from models.season import Season
 from schemas.season import SeasonBase, SeasonGet
 
 
-def get_seasons(db: Season, user_id: UUID) -> List[SeasonGet]:
+async def get_seasons(db: Season, user_id: UUID) -> List[SeasonGet]:
     try:
         items = db.query(Season).filter(Season.user_id == user_id).all()
         seasons = [SeasonGet.from_orm(item) for item in items]
@@ -18,7 +18,7 @@ def get_seasons(db: Season, user_id: UUID) -> List[SeasonGet]:
     return seasons
 
 
-def create_season(db: Session, season: SeasonBase) -> SeasonBase:
+async def create_season(db: Session, season: SeasonBase) -> SeasonBase:
     try:
         db_season = Season(**season.dict(), uuid=uuid4())
         db.add(db_season)

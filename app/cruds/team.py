@@ -7,7 +7,7 @@ from models.team import Teams
 from schemas.team import TeamBase, TeamGet
 
 
-def get_teams(db: Session, user_id: UUID) -> List[TeamGet]:
+async def get_teams(db: Session, user_id: UUID) -> List[TeamGet]:
     try:
         items = db.query(Teams).filter(Teams.user_id == user_id).all()
         teams = [TeamGet.from_orm(item) for item in items]
@@ -17,7 +17,7 @@ def get_teams(db: Session, user_id: UUID) -> List[TeamGet]:
     return teams
 
 
-def create_team(db: Session, team: TeamBase) -> TeamBase:
+async def create_team(db: Session, team: TeamBase) -> TeamBase:
     try:
         db_team = Teams(**team.dict(),
                         uuid=uuid4())

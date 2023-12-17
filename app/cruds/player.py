@@ -18,7 +18,7 @@ async def get_players(db: Session, user_id: str) -> List[PlayerGet]:
     return players
 
 
-def create_player(db: Session, player: PlayerBase) -> PlayerBase:
+async def create_player(db: Session, player: PlayerBase) -> PlayerBase:
     try:
         db_player = Player(**player.dict(), uuid=uuid4())
         db.add(db_player)
@@ -31,7 +31,7 @@ def create_player(db: Session, player: PlayerBase) -> PlayerBase:
     return PlayerBase.from_orm(db_player)
 
 
-def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
+async def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
     try:
         db_player = db.query(Player).filter(Player.user_id == user_id,
                                             Player.uuid == player_id).first()
@@ -43,7 +43,7 @@ def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
     return []
 
 
-def update_player(db: Session,
+async def update_player(db: Session,
                   user_id: str,
                   player_id: str,
                   player: PlayerBase

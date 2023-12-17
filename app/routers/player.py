@@ -17,7 +17,7 @@ async def get_players(user_id: str, db: Session = Depends(get_db)):
 
 @player_router.post('/', response_model=PlayerBase)
 async def create_player(player: PlayerBase, db: Session = Depends(get_db)):
-    item = crud_team.create_player(db, player)
+    item = await crud_team.create_player(db, player)
     return item
 
 
@@ -25,7 +25,7 @@ async def create_player(player: PlayerBase, db: Session = Depends(get_db)):
 async def delete_player(user_id: str,
                         player_id: str,
                         db: Session = Depends(get_db)):
-    item = crud_team.delete_player(db, user_id, player_id)
+    item = await crud_team.delete_player(db, user_id, player_id)
     return item
 
 
@@ -34,5 +34,5 @@ async def update_player(user_id: str,
                         player_id: str,
                         player: PlayerBase,
                         db: Session = Depends(get_db)):
-    item = crud_team.update_player(db, user_id, player_id, player)
+    item = await crud_team.update_player(db, user_id, player_id, player)
     return item

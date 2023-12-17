@@ -65,7 +65,7 @@ def assemble_match_request(match: Match) -> MatchRequest:
     )
 
 
-def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
+async def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
     try:
         items = db.query(Match).filter(
             Match.user_id == user_id).offset(skip).limit(limit).all()
@@ -74,7 +74,7 @@ def get_matches(db: Session, user_id: str, skip: int = 0, limit: int = 100):
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
 
 
-def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
+async def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
     try:
         match = db.query(Match).filter(
             Match.uuid == match_id and Match.user_id == user_id).first()
@@ -83,7 +83,7 @@ def get_match(db: Session, user_id: str, match_id: str) -> MatchRequest:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
 
 
-def create_match(db: Session, matchPostRequest: MatchPostRequest) -> MatchPostRequest:
+async def create_match(db: Session, matchPostRequest: MatchPostRequest) -> MatchPostRequest:
     try:
         match_score_item = init_match_score()
         db.add(match_score_item)

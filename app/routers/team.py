@@ -11,11 +11,11 @@ team_router = APIRouter()
 
 @team_router.get('/', response_model=List[TeamGet])
 async def get_teams(user_id: str, db: Session = Depends(get_db)):
-    items = crud_team.get_teams(db, user_id)
+    items = await crud_team.get_teams(db, user_id)
     return items
 
 
 @team_router.post('/', response_model=TeamBase)
 async def create_team(team: TeamBase, db: Session = Depends(get_db)):
-    db_team = crud_team.create_team(db, team)
+    db_team = await crud_team.create_team(db, team)
     return db_team
