@@ -42,10 +42,10 @@ async def delete_team(db: Session, user_id: UUID, team_id: UUID) -> list:
     return []
 
 
-async def update_team(db: Session, team: TeamBase) -> TeamGet:
+async def update_team(db: Session, team: TeamBase, team_id: str) -> TeamGet:
     try:
         db_team = db.query(Teams).filter(Teams.user_id == team.user_id,
-                                         Teams.uuid == team.uuid).first()
+                                         Teams.uuid == team_id).first()
         db_team.name = team.name
         db_team.code = team.code
         db_team.director = db_team.director
@@ -53,7 +53,6 @@ async def update_team(db: Session, team: TeamBase) -> TeamGet:
         db_team.trainer = db_team.trainer
         db_team.doctor = db_team.doctor
         db_team.season_id = db_team.season_id
-
         db.commit()
         db.refresh(db_team)
     except Exception:
