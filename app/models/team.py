@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, String, DATETIME, ForeignKey
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
@@ -37,4 +37,26 @@ class Teams(Base, TimestampMixin):
     players = relationship(
         'Player',
         back_populates='team'
+    )
+
+    home_matches = relationship(
+        'Match',
+        foreign_keys='Match.home_team_id',
+        back_populates='home_team'
+    )
+
+    away_matches = relationship(
+        'Match',
+        foreign_keys='Match.away_team_id',
+        back_populates='away_team'
+    )
+
+    attacks = relationship(
+        'Attack',
+        back_populates='team'
+    )
+
+    matchscore = relationship(
+        'MatchScore',
+        back_populates='score_team'
     )

@@ -27,3 +27,11 @@ class User(Base, TimestampMixin):
         'Player',
         back_populates='user'
     )
+
+    matchs = relationship(
+        'Match',
+        back_populates='user',
+        primaryjoin='User.uuid == Match.user_id'
+    )
+
+    attacks = relationship('Attack', back_populates='user')

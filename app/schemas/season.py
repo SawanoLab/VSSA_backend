@@ -19,5 +19,5 @@ class SeasonCreate(SeasonBase):
     uuid: UUID
 
 
-class SeasonGet(SeasonBase):
+class SeasonResponse(SeasonBase):
     uuid: UUID

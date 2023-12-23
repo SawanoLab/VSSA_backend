@@ -35,3 +35,8 @@ class Season(Base, TimestampMixin):
         'Player',
         back_populates='season'
     )
+
+    matchs = relationship(
+        'Match',
+        back_populates='season'
+    )

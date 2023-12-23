@@ -4,21 +4,21 @@ from starlette.status import HTTP_404_NOT_FOUND
 from typing import List
 from uuid import uuid4
 from models.player import Player
-from schemas.player import PlayerBase, PlayerGet, PlayerUpdate
+from schemas.player import PlayerBase, PlayerResponse
 from utils.logger import get_logger
 
 
-async def get_players(db: Session, user_id: str) -> List[PlayerGet]:
+async def get_players(db: Session, user_id: str) -> List[PlayerResponse]:
     try:
         items = db.query(Player).filter(Player.user_id == user_id).all()
-        players = [PlayerGet.from_orm(item) for item in items]
+        players = [PlayerResponse.from_orm(item) for item in items]
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='No players found')
     return players
 
 
-def create_player(db: Session, player: PlayerBase) -> PlayerBase:
+async def create_player(db: Session, player: PlayerBase) -> PlayerResponse:
     try:
         db_player = Player(**player.dict(), uuid=uuid4())
         db.add(db_player)
@@ -28,10 +28,10 @@ def create_player(db: Session, player: PlayerBase) -> PlayerBase:
         get_logger().error('Player not created')
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Player not created')
-    return PlayerBase.from_orm(db_player)
+    return PlayerResponse.from_orm(db_player)
 
 
-def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
+async def delete_player(db: Session, user_id: str, player_id: str) -> PlayerResponse:
     try:
         db_player = db.query(Player).filter(Player.user_id == user_id,
                                             Player.uuid == player_id).first()
@@ -40,14 +40,14 @@ def delete_player(db: Session, user_id: str, player_id: str) -> PlayerBase:
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Player not deleted')
-    return PlayerBase.from_orm(db_player)
+    return PlayerResponse.from_orm(db_player)
 
 
-def update_player(db: Session,
+async def update_player(db: Session,
                   user_id: str,
                   player_id: str,
-                  player: PlayerUpdate
-                  ) -> PlayerBase:
+                  player: PlayerBase
+                  ) -> PlayerResponse:
     try:
         db_player = db.query(Player).filter(Player.user_id == user_id,
                                             Player.uuid == player_id).first()
@@ -64,4 +64,4 @@ def update_player(db: Session,
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Player not updated')
-    return PlayerBase.from_orm(db_player)
+    return PlayerResponse.from_orm(db_player)
