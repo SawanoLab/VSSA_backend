@@ -96,8 +96,7 @@ async def create_match(db: Session,
                                    **player_info.__dict__)
             db.add(item)
         db.commit()
-
-        return matchPostRequest
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
+    return assemble_match_request(match_item)
