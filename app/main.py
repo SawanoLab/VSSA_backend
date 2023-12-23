@@ -1,5 +1,7 @@
 import os
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Request, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 from routers.season import season_router
 from routers.team import team_router
@@ -41,6 +43,16 @@ router.include_router(
 )
 
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def handler(request: Request, exc: RequestValidationError):
+    """
+    Handles validation errors
+    """
+    print(exc)
+    return JSONResponse(content={}, status_code=status.HTTP_400_BAD_REQUEST)
+
 
 origins = [os.environ.get('ALLOW_ORIGIN')]
 

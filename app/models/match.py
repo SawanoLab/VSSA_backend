@@ -21,6 +21,8 @@ class Match(Base, TimestampMixin):
     user_id = Column(UUIDType(binary=False),
                      ForeignKey('users.uuid'),
                      nullable=False)
+    youtube_url = Column(Integer,
+                         nullable=False)
     player_match_info = relationship(
         'PlayerMatchInfo',
         back_populates='match'
@@ -57,3 +59,4 @@ class Match(Base, TimestampMixin):
         'MatchSetScore',
         back_populates='match'
     )
+

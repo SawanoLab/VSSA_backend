@@ -4,20 +4,20 @@ from starlette.status import HTTP_404_NOT_FOUND
 from typing import List
 from uuid import UUID, uuid4
 from models.team import Teams
-from schemas.team import TeamBase, TeamGet
+from schemas.team import TeamBase, TeamResponse
 
 
-async def get_teams(db: Session, user_id: UUID) -> List[TeamGet]:
+async def get_teams(db: Session, user_id: UUID) -> List[TeamResponse]:
     try:
         items = db.query(Teams).filter(Teams.user_id == user_id).all()
-        teams = [TeamGet.from_orm(item) for item in items]
+        teams = [TeamResponse.from_orm(item) for item in items]
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='No teams found')
     return teams
 
 
-async def create_team(db: Session, team: TeamBase) -> TeamBase:
+async def create_team(db: Session, team: TeamBase) -> TeamResponse:
     try:
         db_team = Teams(**team.dict(),
                         uuid=uuid4())
@@ -27,10 +27,10 @@ async def create_team(db: Session, team: TeamBase) -> TeamBase:
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Could not create team')
-    return TeamBase.from_orm(db_team)
+    return TeamResponse.from_orm(db_team)
 
 
-async def delete_team(db: Session, user_id: UUID, team_id: UUID) -> list:
+async def delete_team(db: Session, user_id: UUID, team_id: UUID) -> TeamResponse:
     try:
         db_team = db.query(Teams).filter(Teams.user_id == user_id,
                                          Teams.uuid == team_id).first()
@@ -39,10 +39,10 @@ async def delete_team(db: Session, user_id: UUID, team_id: UUID) -> list:
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Could not delete team')
-    return []
+    return TeamResponse.from_orm(db_team)
 
 
-async def update_team(db: Session, team: TeamBase, team_id: str) -> TeamGet:
+async def update_team(db: Session, team: TeamBase, team_id: str) -> TeamResponse:
     try:
         db_team = db.query(Teams).filter(Teams.user_id == team.user_id,
                                          Teams.uuid == team_id).first()
@@ -58,4 +58,4 @@ async def update_team(db: Session, team: TeamBase, team_id: str) -> TeamGet:
     except Exception:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail='Could not update team')
-    return TeamGet.from_orm(db_team)
+    return TeamResponse.from_orm(db_team)

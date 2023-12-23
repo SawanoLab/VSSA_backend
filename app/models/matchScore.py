@@ -28,8 +28,3 @@ class MatchScore(Base, TimestampMixin):
         'Teams',
         back_populates='matchscore'
     )
-
-    # match = relationship(
-    #     'Match',
-    #     back_populates='matchscore'
-    # )

@@ -66,8 +66,8 @@ INSERT INTO players(uuid, name, player_number, code, postion, weight, height, us
 ('62ef9a7adae2456f891c831b04901b8f', 'Player 20', 20, 'PL20', 'Opposite', 78, 182, '1963f7eff71e4a0c944d62628a5bb070', '329a1c1570c543cc8750386b961a1df6', '89650f78c57247039d385b57aa59db34');
 
 
-INSERT INTO matchs (uuid, home_team_id, away_team_id, season_id, user_id) VALUES
-('80ceca3f7f16496e9d769f42996fedbb', 'edf400dc06c641cfbec67d8d4ba82e3f', '329a1c1570c543cc8750386b961a1df6','89650f78c57247039d385b57aa59db34', '1963f7eff71e4a0c944d62628a5bb070');
+INSERT INTO matchs (uuid, home_team_id, away_team_id, season_id, user_id, youtube_url) VALUES
+('80ceca3f7f16496e9d769f42996fedbb', 'edf400dc06c641cfbec67d8d4ba82e3f', '329a1c1570c543cc8750386b961a1df6','89650f78c57247039d385b57aa59db34', '1963f7eff71e4a0c944d62628a5bb070', 'https://youtu.be/xwR17gbHuwY');
 
 INSERT INTO match_set_score (uuid, match_id, set_number, score_team_home, score_team_away) VALUES
 ('95e2d7a1aada42d0b674d850af9c6484', '80ceca3f7f16496e9d769f42996fedbb', 1, 0, 0);

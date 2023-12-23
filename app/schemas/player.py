@@ -31,3 +31,7 @@ class PlayerDelete(PlayerBase):
 
 class PlayerUpdate(PlayerBase):
     uuid: UUID
+
+
+class PlayerResponse(PlayerBase):
+    uuid: UUID

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from schemas.attack import AttackGet, AttackBase
+from schemas.attack import AttackResponse, AttackBase
 from database import get_db
 from typing import List
 import cruds.attack as crud_attack
@@ -9,7 +9,7 @@ import cruds.attack as crud_attack
 attack_router = APIRouter()
 
 
-@attack_router.get('/', response_model=List[AttackGet])
+@attack_router.get('/', response_model=List[AttackResponse])
 async def get_attacks(user_id: str,
                       match_id: str,
                       db: Session = Depends(get_db)):
@@ -17,14 +17,16 @@ async def get_attacks(user_id: str,
     return items
 
 
-@attack_router.post('/', response_model=AttackGet)
+@attack_router.post('/', response_model=AttackResponse)
 async def create_attack(attack: AttackBase,
                         db: Session = Depends(get_db)):
     item = await crud_attack.create_attack(db, attack)
     return item
 
 
-@attack_router.delete('/{attack_id}', response_model=AttackBase)
-async def delete_attack(user_id: str, attack_id: str, db: Session = Depends(get_db)):
+@attack_router.delete('/{attack_id}', response_model=AttackResponse)
+async def delete_attack(user_id: str,
+                        attack_id: str,
+                        db: Session = Depends(get_db)):
     item = await crud_attack.delete_attack(db, user_id, attack_id)
     return item

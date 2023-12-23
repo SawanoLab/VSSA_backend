@@ -20,5 +20,5 @@ class TeamCreate(TeamBase):
     uuid: UUID
 
 
-class TeamGet(TeamBase):
+class TeamResponse(TeamBase):
     uuid: UUID

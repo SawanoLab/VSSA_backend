@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from schemas.player import PlayerGet, PlayerBase, PlayerUpdate
+from schemas.player import PlayerResponse, PlayerBase
 from database import get_db
 from typing import List
 import cruds.player as crud_team
@@ -9,19 +9,19 @@ import cruds.player as crud_team
 player_router = APIRouter()
 
 
-@player_router.get('/', response_model=List[PlayerGet])
+@player_router.get('/', response_model=List[PlayerResponse])
 async def get_players(user_id: str, db: Session = Depends(get_db)):
     items = await crud_team.get_players(db, user_id)
     return items
 
 
-@player_router.post('/', response_model=PlayerBase)
+@player_router.post('/', response_model=PlayerResponse)
 async def create_player(player: PlayerBase, db: Session = Depends(get_db)):
     item = await crud_team.create_player(db, player)
     return item
 
 
-@player_router.delete('/', response_model=PlayerBase)
+@player_router.delete('/', response_model=PlayerResponse)
 async def delete_player(user_id: str,
                         player_id: str,
                         db: Session = Depends(get_db)):
@@ -29,7 +29,7 @@ async def delete_player(user_id: str,
     return item
 
 
-@player_router.put('/', response_model=PlayerBase)
+@player_router.put('/', response_model=PlayerResponse)
 async def update_player(user_id: str,
                         player_id: str,
                         player: PlayerBase,

@@ -27,13 +27,12 @@ class TeamRequest(BaseModel):
     setter_postion: str
 
 
-class MatchRequest(BaseModel):
+class MatchResponse(BaseModel):
     uuid: UUID
     home_team: TeamRequest
     away_team: TeamRequest
     season_name: str
-    # home_team_score: int
-    # away_team_score: int
+    youtube_url: str
 
 
 class PlayerMatchInfo(BaseModel):
@@ -48,6 +47,15 @@ class Match(BaseModel):
     away_team_id: UUID
     user_id: UUID
     season_id: UUID
+    youtube_url: str
+
+
+class MatchRequest(BaseModel):
+    uuid: str
+    home_team: TeamRequest
+    away_team: TeamRequest
+    season_name: str
+    youtube_url: str
 
 
 class MatchPostRequest(BaseModel):

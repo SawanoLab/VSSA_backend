@@ -30,5 +30,5 @@ class AttackCreate(AttackBase):
     uuid: UUID
 
 
-class AttackGet(AttackBase):
+class AttackResponse(AttackBase):
     uuid: UUID
