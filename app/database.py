@@ -43,16 +43,13 @@ Base.query = SessionLocal.query_property()
 def get_db() -> Generator[Session, None, None]:
     db = None
     try:
-        print('db.start()')
         db = SessionLocal()
         yield db
     except Exception as e:
         print(f'Error: {e}')
-        print('Rolling back the session.')
         if db:
             db.rollback()
     finally:
         if db:
-            print('db.close()')
             db.close()
 

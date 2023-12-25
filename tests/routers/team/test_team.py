@@ -5,7 +5,6 @@ from tests.constants.team import TEAM_DATA_JSON, TEAM_CREATE_DATA_JSON
 
 def test_get_team(client):
     res = client.get(f'/teams/?user_id={USER_ID}')
-    print("USER_ID: ", USER_ID)
     data = res.json()
     assert res.status_code == 200
     assert data == TEAM_DATA_JSON

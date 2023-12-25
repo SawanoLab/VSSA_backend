@@ -26,7 +26,6 @@ class TestingSession(Session):
 
 @pytest.fixture
 def test_db():
-    print('test_db')
     DATABASE = 'mysql://%s:%s@%s/%s?charset=utf8' % (
         DB_USER,
         DB_PASSWORD,

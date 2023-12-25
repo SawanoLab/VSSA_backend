@@ -4,9 +4,7 @@ from tests.constants.attack import ATTACK_CREATE_DATA_JSON, ATTACK_DATA_JSON
 
 def test_get_attacks(client):
     res = client.get(f'/attacks/?user_id={USER_ID}&match_id={MATCH_ID}')
-    print("USER_ID: ", USER_ID)
     data = res.json()
-    print("DATA: ", data)
     assert res.status_code == 200
     assert data == ATTACK_DATA_JSON
 
@@ -14,9 +12,8 @@ def test_get_attacks(client):
 def test_create_attack(client, test_db):  # noqa: F811
     res = client.post('/attacks/', json=ATTACK_CREATE_DATA_JSON)
     data = res.json()
-    print("DATA: ", data)
     assert res.status_code == 200
-    # assert data == ATTACK_CREATE_DATA_JSON todo: fix this
+    assert data == ATTACK_DATA_JSON
 
 
 def test_delete_attack(client, test_db):  # noqa: F811
