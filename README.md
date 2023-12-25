@@ -7,7 +7,7 @@
 <p align="center"><img src="https://github.com/SawanoLab/VSSA_aggregation/assets/55621861/510b2c4c-95a2-4232-b772-b05a0ebaafe9" ></p>
 <div align="center">
   <ul>
-  VSSA Agregation API: https://github.com/SawanoLab/VSSA_aggregation
+  VSSA Aggregation API: https://github.com/SawanoLab/VSSA_aggregation
   </ul>
   <ul>
   VSSA React: https://github.com/SawanoLab/VSSA
