@@ -48,6 +48,7 @@ class Match(BaseModel):
     user_id: UUID
     season_id: UUID
     youtube_url: str
+    start_point_detection_status: str
 
 
 class MatchRequest(BaseModel):
