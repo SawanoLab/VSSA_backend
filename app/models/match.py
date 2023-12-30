@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
@@ -25,7 +25,8 @@ class Match(Base, TimestampMixin):
                          nullable=False)
     player_match_info = relationship(
         'PlayerMatchInfo',
-        back_populates='match'
+        back_populates='match',
+        cascade="all, delete-orphan"
     )
 
     user = relationship(
@@ -52,11 +53,12 @@ class Match(Base, TimestampMixin):
 
     attacks = relationship(
         'Attack',
-        back_populates='match'
+        back_populates='match',
+        cascade="all, delete-orphan"
     )
 
     matchsetscore = relationship(
         'MatchSetScore',
-        back_populates='match'
+        back_populates='match',
+        cascade="all, delete-orphan"
     )
-

@@ -26,14 +26,27 @@ class Attack(Base, TimestampMixin):
 
     user_id = Column(UUIDType(binary=False),
                      ForeignKey('users.uuid'), nullable=False)
-    match_id = Column(UUIDType(binary=False), ForeignKey(
-        'matchs.uuid'), nullable=False)
+    match_id = Column(UUIDType(binary=False),
+                      ForeignKey('matchs.uuid'),
+                      nullable=False)
     team_id = Column(UUIDType(binary=False),
                      ForeignKey('teams.uuid'), nullable=False)
     player_id = Column(UUIDType(binary=False), ForeignKey(
         'players.uuid'), nullable=False)
 
-    user = relationship('User', back_populates='attacks')
-    match = relationship('Match', back_populates='attacks')
-    team = relationship('Teams', back_populates='attacks')
-    player = relationship('Player', back_populates='attacks')
+    user = relationship(
+        'User',
+        back_populates='attacks'
+    )
+    match = relationship(
+        'Match',
+        back_populates='attacks',
+    )
+    team = relationship(
+        'Teams',
+        back_populates='attacks'
+    )
+    player = relationship(
+        'Player',
+        back_populates='attacks'
+    )

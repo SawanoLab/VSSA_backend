@@ -100,3 +100,17 @@ async def create_match(db: Session,
         db.rollback()
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))
     return assemble_match_request(match_item)
+
+
+async def delete_match(db: Session,
+                       user_id: str,
+                       match_id: str) -> str:
+    try:
+        match = db.query(Match).filter(
+            Match.uuid == match_id and Match.user_id == user_id).first()
+        db.delete(match)
+        db.commit()
+        return match_id
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=str(e))

@@ -18,7 +18,8 @@ class MatchSetScore(Base, TimestampMixin):
 
     matchscore = relationship(
         'MatchScore',
-        back_populates='match_set_score'
+        back_populates='match_set_score',
+        cascade="all, delete-orphan"
     )
 
     match = relationship(

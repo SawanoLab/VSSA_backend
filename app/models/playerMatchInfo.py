@@ -9,8 +9,10 @@ from .mixins import TimestampMixin
 class PlayerMatchInfo(Base, TimestampMixin):
     __tablename__ = 'playerMatchInfo'
     uuid = Column(UUIDType(binary=False), primary_key=True, default=uuid4)
-    player_id = Column(UUIDType(binary=False), ForeignKey('players.uuid'), nullable=False)
-    match_id = Column(UUIDType(binary=False), ForeignKey('matchs.uuid'), nullable=False)
+    player_id = Column(UUIDType(binary=False), ForeignKey(
+        'players.uuid'), nullable=False)
+    match_id = Column(UUIDType(binary=False), ForeignKey(
+        'matchs.uuid'), nullable=False)
     on_court = Column(Boolean, nullable=False)
     zone_code = Column(String(255), nullable=False)
     libero = Column(Boolean, nullable=False)

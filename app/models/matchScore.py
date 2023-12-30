@@ -21,7 +21,7 @@ class MatchScore(Base, TimestampMixin):
 
     match_set_score = relationship(
         'MatchSetScore',
-        back_populates='matchscore'
+        back_populates='matchscore',
     )
 
     score_team = relationship(

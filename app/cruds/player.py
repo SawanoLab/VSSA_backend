@@ -44,10 +44,10 @@ async def delete_player(db: Session, user_id: str, player_id: str) -> PlayerResp
 
 
 async def update_player(db: Session,
-                  user_id: str,
-                  player_id: str,
-                  player: PlayerBase
-                  ) -> PlayerResponse:
+                        user_id: str,
+                        player_id: str,
+                        player: PlayerBase
+                        ) -> PlayerResponse:
     try:
         db_player = db.query(Player).filter(Player.user_id == user_id,
                                             Player.uuid == player_id).first()

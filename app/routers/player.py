@@ -21,7 +21,7 @@ async def create_player(player: PlayerBase, db: Session = Depends(get_db)):
     return item
 
 
-@player_router.delete('/', response_model=PlayerResponse)
+@player_router.delete('/{player_id}', response_model=PlayerResponse)
 async def delete_player(user_id: str,
                         player_id: str,
                         db: Session = Depends(get_db)):
@@ -29,7 +29,7 @@ async def delete_player(user_id: str,
     return item
 
 
-@player_router.put('/', response_model=PlayerResponse)
+@player_router.put('/{player_id}', response_model=PlayerResponse)
 async def update_player(user_id: str,
                         player_id: str,
                         player: PlayerBase,

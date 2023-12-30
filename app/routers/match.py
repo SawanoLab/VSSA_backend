@@ -38,3 +38,13 @@ async def get_match(user_id: str,
                                       user_id=user_id,
                                       match_id=match_id)
     return item
+
+
+@match_router.delete('/{match_id}', response_model=str)
+async def delete_match(user_id: str,
+                       match_id: str,
+                       db: Session = Depends(get_db)):
+    item = await crud_match.delete_match(db=db,
+                                         user_id=user_id,
+                                         match_id=match_id)
+    return item
