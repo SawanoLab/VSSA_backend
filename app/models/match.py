@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, ForeignKey, String, Enum
+from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
@@ -23,6 +23,7 @@ class Match(Base, TimestampMixin):
                      nullable=False)
     youtube_url = Column(String(128),
                          nullable=False)
+
     player_match_info = relationship(
         'PlayerMatchInfo',
         back_populates='match',
@@ -59,6 +60,12 @@ class Match(Base, TimestampMixin):
 
     matchsetscore = relationship(
         'MatchSetScore',
+        back_populates='match',
+        cascade="all, delete-orphan"
+    )
+
+    attack_times = relationship(
+        'AttackTime',
         back_populates='match',
         cascade="all, delete-orphan"
     )
