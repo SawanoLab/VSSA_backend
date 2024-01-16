@@ -38,6 +38,13 @@ Inside the API container, navigate to the database directory and run the Alembic
 
 With these steps, your Volley Station Clone should be set up and ready to use. If you encounter any issues during the setup process, please refer to the Docker and Alembic documentation for additional guidance.
 
+## Test
+`$ docker-compose -f docker-compose.test.local.yml build`
+
+`$ cd /usr/src/app/tests && python3 seed.py`
+
+`$ cd /usr/src/app && pytest -s`
+
 ## Open API
 Swagger UI: Open your web browser and go to http://localhost:10555/docs. 
 
