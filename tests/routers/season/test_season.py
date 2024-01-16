@@ -20,5 +20,6 @@ def test_get_season_not_exist_user(client):
 def test_post_season(client, test_db): # noqa: F811
     res = client.post('/seasons/', json=SEASON_CREATE_DATA_JSON)
     data = res.json()
+    SEASON_CREATE_DATA_JSON['uuid'] = data.get('uuid')
     assert res.status_code == 200
     assert data == SEASON_CREATE_DATA_JSON

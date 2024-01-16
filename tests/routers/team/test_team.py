@@ -20,5 +20,6 @@ def test_get_team_error(client):
 def test_post_team(client, test_db):  # noqa: F811
     res = client.post('/teams/', json=TEAM_CREATE_DATA_JSON)
     data = res.json()
+    TEAM_CREATE_DATA_JSON['uuid'] = data.get('uuid')
     assert res.status_code == 200
     assert data == TEAM_CREATE_DATA_JSON

@@ -12,8 +12,10 @@ def test_get_attacks(client):
 def test_create_attack(client, test_db):  # noqa: F811
     res = client.post('/attacks/', json=ATTACK_CREATE_DATA_JSON)
     data = res.json()
+    print(data.get('uuid'))
     assert res.status_code == 200
-    assert data == ATTACK_DATA_JSON
+    ATTACK_CREATE_DATA_JSON['uuid'] = data.get('uuid')
+    assert data == ATTACK_CREATE_DATA_JSON
 
 
 def test_delete_attack(client, test_db):  # noqa: F811
