@@ -64,8 +64,8 @@ class Match(Base, TimestampMixin):
         cascade="all, delete-orphan"
     )
 
-    attack_times = relationship(
-        'AttackTime',
+    event_times = relationship(
+        'EventTime',
         back_populates='match',
         cascade="all, delete-orphan"
     )
